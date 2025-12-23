@@ -1,9 +1,16 @@
-import express, { Request, Response, NextFunction } from 'express';}}}}
-const app = express();}}
+import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import routes from './routes';
+
+dotenv.config();
+
+const app = express();
 
 // Middleware
+app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));}}}}
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.get('/', (req: Request, res: Response) => {
@@ -18,9 +25,8 @@ app.get('/health', (req: Request, res: Response) => {
   res.json({ status: 'ok', uptime: process.uptime() });
 });
 
-// Import routes
-// import userRoutes from './routes/user.routes';
-// app.use('/api/users', userRoutes);
+// API routes
+app.use('/api', routes);
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -39,6 +45,6 @@ app.use((req: Request, res: Response) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
-  console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
-});}/\nimport cors from 'cors';}}/\nimport dotenv from 'dotenv';}}/\ndotenv.config();}}/\napp.use(cors());}}/}
+  console.log(`Server is running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+});

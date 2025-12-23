@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Usuario {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  nombre    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  visiones Vision[]
+
+  @@map("usuarios")
+}
+
+model Vision {
+  id          String   @id @default(cuid())
+  titulo      String
+  descripcion String?
+  usuarioId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  metas   Meta[]
+
+  @@map("visiones")
+}
+
+model Meta {
+  id          String   @id @default(cuid())
+  titulo      String
+  descripcion String?
+  visionId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  vision    Vision     @relation(fields: [visionId], references: [id], onDelete: Cascade)
+  objetivos Objetivo[]
+
+  @@map("metas")
+}
+
+model Objetivo {
+  id          String   @id @default(cuid())
+  titulo      String
+  descripcion String?
+  metaId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  meta     Meta     @relation(fields: [metaId], references: [id], onDelete: Cascade)
+  misiones Mision[]
+
+  @@map("objetivos")
+}
+
+model Mision {
+  id          String   @id @default(cuid())
+  titulo      String
+  descripcion String?
+  objetivoId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  objetivo Objetivo @relation(fields: [objetivoId], references: [id], onDelete: Cascade)
+  tareas   Tarea[]
+
+  @@map("misiones")
+}
+
+model Tarea {
+  id          String   @id @default(cuid())
+  titulo      String
+  descripcion String?
+  completada  Boolean  @default(false)
+  misionId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  mision Mision @relation(fields: [misionId], references: [id], onDelete: Cascade)
+
+  @@map("tareas")
+}

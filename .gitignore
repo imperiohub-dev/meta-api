@@ -41,3 +41,5 @@ coverage/
 *.d.ts
 !jest.config.js
 
+
+/src/generated/prisma
