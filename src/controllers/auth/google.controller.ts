@@ -1,6 +1,6 @@
 import passport from "passport";
 import type { Request, Response } from "express";
-import createJWT from "../../utils/createJwt.js";
+import createJWT from "../../utils/create.jwt.js";
 import type { User, UserToken } from "../../types/user";
 
 export const googleAuth = passport.authenticate("google", {
