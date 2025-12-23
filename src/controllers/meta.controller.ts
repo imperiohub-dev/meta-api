@@ -1,18 +1,19 @@
-import { Request, Response } from 'express';
-import { metaDb } from '../db';
+import { Request, Response } from "express";
+import { metaDb } from "../db";
 
 export const getAll = async (req: Request, res: Response) => {
   try {
+    // TODO: Tiene que ser getAll pero segun el usuario
     const metas = await metaDb.findAll();
     res.json({
       success: true,
-      data: metas
+      data: metas,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Error al obtener metas',
-      message: error instanceof Error ? error.message : 'Error desconocido'
+      error: "Error al obtener metas",
+      message: error instanceof Error ? error.message : "Error desconocido",
     });
   }
 };
@@ -25,19 +26,19 @@ export const getById = async (req: Request, res: Response) => {
     if (!meta) {
       return res.status(404).json({
         success: false,
-        error: 'Meta no encontrada'
+        error: "Meta no encontrada",
       });
     }
 
     res.json({
       success: true,
-      data: meta
+      data: meta,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Error al obtener meta',
-      message: error instanceof Error ? error.message : 'Error desconocido'
+      error: "Error al obtener meta",
+      message: error instanceof Error ? error.message : "Error desconocido",
     });
   }
 };
@@ -49,7 +50,7 @@ export const upsert = async (req: Request, res: Response) => {
     if (!titulo || !visionId) {
       return res.status(400).json({
         success: false,
-        error: 'Título y visionId son requeridos'
+        error: "Título y visionId son requeridos",
       });
     }
 
@@ -57,13 +58,13 @@ export const upsert = async (req: Request, res: Response) => {
 
     res.status(id ? 200 : 201).json({
       success: true,
-      data: meta
+      data: meta,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Error al guardar meta',
-      message: error instanceof Error ? error.message : 'Error desconocido'
+      error: "Error al guardar meta",
+      message: error instanceof Error ? error.message : "Error desconocido",
     });
   }
 };
@@ -75,13 +76,13 @@ export const deleteById = async (req: Request, res: Response) => {
 
     res.json({
       success: true,
-      message: 'Meta eliminada correctamente'
+      message: "Meta eliminada correctamente",
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Error al eliminar meta',
-      message: error instanceof Error ? error.message : 'Error desconocido'
+      error: "Error al eliminar meta",
+      message: error instanceof Error ? error.message : "Error desconocido",
     });
   }
 };

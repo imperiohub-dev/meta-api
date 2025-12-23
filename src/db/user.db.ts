@@ -1,5 +1,5 @@
 import { prisma } from './prisma';
-import { UpsertUserDto } from '../types';
+import { UpsertUserDto, CreateUserDto } from '../types';
 import { Usuario as PrismaUsuario } from '../generated/prisma/client';
 
 export const findAll = async () => {
@@ -16,6 +16,18 @@ export const findById = async (id: PrismaUsuario['id']) => {
     include: {
       visiones: true
     }
+  });
+};
+
+export const findByEmail = async (email: string) => {
+  return await prisma.usuario.findUnique({
+    where: { email }
+  });
+};
+
+export const create = async (data: CreateUserDto) => {
+  return await prisma.usuario.create({
+    data
   });
 };
 

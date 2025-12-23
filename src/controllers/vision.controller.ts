@@ -1,18 +1,19 @@
-import { Request, Response } from 'express';
-import { visionDb } from '../db';
+import { Request, Response } from "express";
+import { visionDb } from "../db";
 
 export const getAll = async (req: Request, res: Response) => {
   try {
+    // TODO: Tiene que ser getAll pero segun el usuario
     const visiones = await visionDb.findAll();
     res.json({
       success: true,
-      data: visiones
+      data: visiones,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Error al obtener visiones',
-      message: error instanceof Error ? error.message : 'Error desconocido'
+      error: "Error al obtener visiones",
+      message: error instanceof Error ? error.message : "Error desconocido",
     });
   }
 };
@@ -25,19 +26,19 @@ export const getById = async (req: Request, res: Response) => {
     if (!vision) {
       return res.status(404).json({
         success: false,
-        error: 'Visión no encontrada'
+        error: "Visión no encontrada",
       });
     }
 
     res.json({
       success: true,
-      data: vision
+      data: vision,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Error al obtener visión',
-      message: error instanceof Error ? error.message : 'Error desconocido'
+      error: "Error al obtener visión",
+      message: error instanceof Error ? error.message : "Error desconocido",
     });
   }
 };
@@ -49,21 +50,26 @@ export const upsert = async (req: Request, res: Response) => {
     if (!titulo || !usuarioId) {
       return res.status(400).json({
         success: false,
-        error: 'Título y usuarioId son requeridos'
+        error: "Título y usuarioId son requeridos",
       });
     }
 
-    const vision = await visionDb.upsert({ id, titulo, descripcion, usuarioId });
+    const vision = await visionDb.upsert({
+      id,
+      titulo,
+      descripcion,
+      usuarioId,
+    });
 
     res.status(id ? 200 : 201).json({
       success: true,
-      data: vision
+      data: vision,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Error al guardar visión',
-      message: error instanceof Error ? error.message : 'Error desconocido'
+      error: "Error al guardar visión",
+      message: error instanceof Error ? error.message : "Error desconocido",
     });
   }
 };
@@ -75,13 +81,13 @@ export const deleteById = async (req: Request, res: Response) => {
 
     res.json({
       success: true,
-      message: 'Visión eliminada correctamente'
+      message: "Visión eliminada correctamente",
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Error al eliminar visión',
-      message: error instanceof Error ? error.message : 'Error desconocido'
+      error: "Error al eliminar visión",
+      message: error instanceof Error ? error.message : "Error desconocido",
     });
   }
 };

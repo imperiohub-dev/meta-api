@@ -5,3 +5,9 @@ export interface User {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface UserToken {
+  id: string;
+  email: string;
+  nombre: string;
+}
