@@ -3,8 +3,16 @@ import { objetivoDb } from "../db";
 
 export const getAll = async (req: Request, res: Response) => {
   try {
-    // TODO: Tiene que ser getAll pero segun el usuario
-    const objetivos = await objetivoDb.findAll();
+    const { metaId } = req.query;
+
+    if (!metaId || typeof metaId !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: "metaId es requerido",
+      });
+    }
+
+    const objetivos = await objetivoDb.findByMetaId(metaId);
     res.json({
       success: true,
       data: objetivos,

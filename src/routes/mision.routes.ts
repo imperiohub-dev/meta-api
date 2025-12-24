@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import * as misionController from '../controllers/mision.controller';
+import authenticateToken from '../middlewares/authenticateToken';
 
 const router = Router();
+
+router.use(authenticateToken);
 
 // GET /api/misiones
 router.get('/', misionController.getAll);

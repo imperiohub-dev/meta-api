@@ -1,6 +1,6 @@
 import { prisma } from './prisma';
 import { UpsertMisionDto } from '../types';
-import { Mision as PrismaMision } from '../generated/prisma/client';
+import { Mision as PrismaMision, Objetivo as PrismaObjetivo } from '../generated/prisma/client';
 
 export const findAll = async () => {
   return await prisma.mision.findMany({
@@ -14,6 +14,16 @@ export const findAll = async () => {
 export const findById = async (id: PrismaMision['id']) => {
   return await prisma.mision.findUnique({
     where: { id },
+    include: {
+      objetivo: true,
+      tareas: true
+    }
+  });
+};
+
+export const findByObjetivoId = async (objetivoId: PrismaObjetivo['id']) => {
+  return await prisma.mision.findMany({
+    where: { objetivoId },
     include: {
       objetivo: true,
       tareas: true

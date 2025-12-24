@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import * as metaController from '../controllers/meta.controller';
+import authenticateToken from '../middlewares/authenticateToken';
 
 const router = Router();
+
+router.use(authenticateToken);
 
 // GET /api/metas
 router.get('/', metaController.getAll);

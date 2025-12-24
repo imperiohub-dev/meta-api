@@ -3,8 +3,16 @@ import { tareaDb } from "../db";
 
 export const getAll = async (req: Request, res: Response) => {
   try {
-    // TODO: Tiene que ser getAll pero segun el usuario
-    const tareas = await tareaDb.findAll();
+    const { misionId } = req.query;
+
+    if (!misionId || typeof misionId !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: "misionId es requerido",
+      });
+    }
+
+    const tareas = await tareaDb.findByMisionId(misionId);
     res.json({
       success: true,
       data: tareas,

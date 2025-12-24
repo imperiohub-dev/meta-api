@@ -1,6 +1,6 @@
 import { prisma } from './prisma';
 import { UpsertTareaDto } from '../types';
-import { Tarea as PrismaTarea } from '../generated/prisma/client';
+import { Tarea as PrismaTarea, Mision as PrismaMision } from '../generated/prisma/client';
 
 export const findAll = async () => {
   return await prisma.tarea.findMany({
@@ -13,6 +13,15 @@ export const findAll = async () => {
 export const findById = async (id: PrismaTarea['id']) => {
   return await prisma.tarea.findUnique({
     where: { id },
+    include: {
+      mision: true
+    }
+  });
+};
+
+export const findByMisionId = async (misionId: PrismaMision['id']) => {
+  return await prisma.tarea.findMany({
+    where: { misionId },
     include: {
       mision: true
     }

@@ -3,8 +3,16 @@ import { visionDb } from "../db";
 
 export const getAll = async (req: Request, res: Response) => {
   try {
-    // TODO: Tiene que ser getAll pero segun el usuario
-    const visiones = await visionDb.findAll();
+    const usuarioId = req.user?.id;
+
+    if (!usuarioId) {
+      return res.status(401).json({
+        success: false,
+        error: "Usuario no autenticado",
+      });
+    }
+
+    const visiones = await visionDb.findByUserId(usuarioId);
     res.json({
       success: true,
       data: visiones,

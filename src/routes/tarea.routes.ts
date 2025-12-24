@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import * as tareaController from '../controllers/tarea.controller';
+import authenticateToken from '../middlewares/authenticateToken';
 
 const router = Router();
+
+router.use(authenticateToken);
 
 // GET /api/tareas
 router.get('/', tareaController.getAll);

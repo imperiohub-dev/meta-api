@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import * as objetivoController from '../controllers/objetivo.controller';
+import authenticateToken from '../middlewares/authenticateToken';
 
 const router = Router();
+
+router.use(authenticateToken);
 
 // GET /api/objetivos
 router.get('/', objetivoController.getAll);

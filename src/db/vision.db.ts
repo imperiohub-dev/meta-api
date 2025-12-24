@@ -1,6 +1,6 @@
 import { prisma } from './prisma';
 import { UpsertVisionDto } from '../types';
-import { Vision as PrismaVision } from '../generated/prisma/client';
+import { Vision as PrismaVision, Usuario as PrismaUsuario } from '../generated/prisma/client';
 
 export const findAll = async () => {
   return await prisma.vision.findMany({
@@ -14,6 +14,16 @@ export const findAll = async () => {
 export const findById = async (id: PrismaVision['id']) => {
   return await prisma.vision.findUnique({
     where: { id },
+    include: {
+      usuario: true,
+      metas: true
+    }
+  });
+};
+
+export const findByUserId = async (usuarioId: PrismaUsuario['id']) => {
+  return await prisma.vision.findMany({
+    where: { usuarioId },
     include: {
       usuario: true,
       metas: true

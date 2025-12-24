@@ -3,8 +3,16 @@ import { metaDb } from "../db";
 
 export const getAll = async (req: Request, res: Response) => {
   try {
-    // TODO: Tiene que ser getAll pero segun el usuario
-    const metas = await metaDb.findAll();
+    const { visionId } = req.query;
+
+    if (!visionId || typeof visionId !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: "visionId es requerido",
+      });
+    }
+
+    const metas = await metaDb.findByVisionId(visionId);
     res.json({
       success: true,
       data: metas,

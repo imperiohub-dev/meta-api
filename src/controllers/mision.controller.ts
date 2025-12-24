@@ -3,8 +3,16 @@ import { misionDb } from "../db";
 
 export const getAll = async (req: Request, res: Response) => {
   try {
-    // TODO: Tiene que ser getAll pero segun el usuario
-    const misiones = await misionDb.findAll();
+    const { objetivoId } = req.query;
+
+    if (!objetivoId || typeof objetivoId !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: "objetivoId es requerido",
+      });
+    }
+
+    const misiones = await misionDb.findByObjetivoId(objetivoId);
     res.json({
       success: true,
       data: misiones,

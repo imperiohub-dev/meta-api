@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import * as visionController from '../controllers/vision.controller';
+import authenticateToken from '../middlewares/authenticateToken';
 
 const router = Router();
+
+router.use(authenticateToken);
 
 // GET /api/visiones
 router.get('/', visionController.getAll);
