@@ -47,6 +47,18 @@ export const upsert = async (data: UpsertUserDto) => {
   });
 };
 
+export const upsertByEmail = async (data: CreateUserDto & { email: string }) => {
+  return await prisma.usuario.upsert({
+    where: { email: data.email },
+    update: {
+      nombre: data.nombre,
+      picture: data.picture,
+      googleId: data.googleId,
+    },
+    create: data
+  });
+};
+
 export const deleteById = async (id: PrismaUsuario['id']) => {
   return await prisma.usuario.delete({
     where: { id }

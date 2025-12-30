@@ -13,7 +13,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+// Cookie parser con secreto para cookies firmadas
+app.use(cookieParser(process.env.COOKIE_SECRET || "default-secret-change-in-production"));
 app.use(passport.initialize());
 
 // Routes

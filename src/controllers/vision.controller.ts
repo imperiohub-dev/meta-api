@@ -54,6 +54,7 @@ export const getById = async (req: Request, res: Response) => {
 export const upsert = async (req: Request, res: Response) => {
   try {
     const { id, titulo, descripcion, usuarioId } = req.body;
+    console.log("req.body", req.body);
 
     if (!titulo || !usuarioId) {
       return res.status(400).json({

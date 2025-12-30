@@ -22,21 +22,20 @@ passport.use(
       try {
         const email = profile.emails?.[0]?.value;
         const nombre = profile.displayName;
+        const picture = profile.photos?.[0]?.value;
+        const googleId = profile.id;
 
         if (!email) {
           return done(new Error("No email found in Google profile"));
         }
 
-        // Buscar o crear usuario
-        let user = await userDb.findByEmail(email);
-
-        if (!user) {
-          // Crear nuevo usuario
-          user = await userDb.create({
-            email,
-            nombre: nombre || email.split("@")[0],
-          });
-        }
+        // Crear o actualizar usuario (upsert directo por email)
+        const user = await userDb.upsertByEmail({
+          email,
+          nombre: nombre || email.split("@")[0],
+          picture,
+          googleId,
+        });
 
         return done(null, user);
       } catch (error) {
